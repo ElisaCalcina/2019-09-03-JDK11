@@ -143,9 +143,9 @@ public class FoodDao {
 	
 	//archi --> esiste almeno un cibo servito come tipo e altro tipo?
 	public List<Adiacenze> getAdiacenze(){
-		String sql="SELECT p1.portion_display_name AS n1, p2.portion_display_name AS n2, COUNT(DISTINCT(p1.food_code)) AS peso " + 
+		String sql="SELECT p1.portion_display_name AS n1, p2.portion_display_name AS n2, COUNT(DISTINCT p1.food_code) AS peso " + 
 				"FROM `portion` AS p1, `portion` AS p2 " + 
-				"WHERE p1.food_code=p2.food_code AND p1.portion_id>p2.portion_id " + 
+				"WHERE p1.food_code=p2.food_code AND p1.portion_display_name>p2.portion_display_name " + 
 				"GROUP BY n1,n2 " ;
 		
 		List<Adiacenze> result= new ArrayList<Adiacenze>();

@@ -4,8 +4,7 @@
 
 package it.polito.tdp.food;
 
-import java.net.URL;
-import java.util.List;
+import java.net.URL;import java.util.List;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.food.model.Adiacenze;
@@ -66,8 +65,8 @@ public class FoodController {
     	List<Adiacenze> result= this.model.getConnesse(tipo);
     	
     	txtResult.appendText("Tipi connessi a " +tipo+" : \n");
-    	for(Adiacenze a: result) {
-    		txtResult.appendText(a.toString()+"\n");
+    	for(Adiacenze v: result) {
+    		txtResult.appendText(v.toString()+ "\n");
     	}
     }
 

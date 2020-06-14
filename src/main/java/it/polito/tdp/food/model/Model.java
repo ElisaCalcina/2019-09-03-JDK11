@@ -21,7 +21,7 @@ public class Model {
 		dao= new FoodDao();
 	}
 	
-	public void creaGrafo(Integer calorie) {
+	public void creaGrafo(int calorie) {
 		this.grafo= new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
 		adiacenze= this.dao.getAdiacenze();
 		
@@ -54,10 +54,9 @@ public class Model {
 		
 		List<String> vicini= Graphs.neighborListOf(grafo, tipo);
 		for(String s: vicini) {
-			Double peso= this.grafo.getEdgeWeight(this.grafo.getEdge(tipo, s));
+			double peso= this.grafo.getEdgeWeight(this.grafo.getEdge(tipo, s));
 			result.add(new Adiacenze(tipo, s, peso));
 		}
-		Collections.sort(result);
 		return result;
 	}
 }
