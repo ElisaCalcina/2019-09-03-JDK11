@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import it.polito.tdp.food.model.Adiacenze;
 import it.polito.tdp.food.model.Condiment;
 import it.polito.tdp.food.model.Food;
 import it.polito.tdp.food.model.Portion;
@@ -109,6 +111,62 @@ public class FoodDao {
 
 	}
 	
+	//vertici
+	public List<String> getTipoPorzione(Integer calorie){
+		String sql="SELECT distinct portion_display_name " + 
+				"FROM `portion` " +
+				"WHERE calories<? "+
+				"ORDER BY portion_display_name ASC";
+
+		List<String> result= new ArrayList<String>();
+		
+		Connection conn = DBConnect.getConnection() ;
+		try {
+			PreparedStatement st = conn.prepareStatement(sql) ;
+			st.setInt(1, calorie);
+			ResultSet res = st.executeQuery() ;
+			
+			while(res.next()) {
+				result.add(res.getString("portion_display_name"));
+			}
+			
+			conn.close();
+			return result;
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+			return null ;
+		}
+		
+			
+	}
 	
+	//archi --> esiste almeno un cibo servito come tipo e altro tipo?
+	public List<Adiacenze> getAdiacenze(){
+		String sql="SELECT p1.portion_display_name AS n1, p2.portion_display_name AS n2, COUNT(DISTINCT(p1.food_code)) AS peso " + 
+				"FROM `portion` AS p1, `portion` AS p2 " + 
+				"WHERE p1.food_code=p2.food_code AND p1.portion_id>p2.portion_id " + 
+				"GROUP BY n1,n2 " ;
+		
+		List<Adiacenze> result= new ArrayList<Adiacenze>();
+		
+		Connection conn = DBConnect.getConnection() ;
+		try {
+			PreparedStatement st = conn.prepareStatement(sql) ;
+			ResultSet res = st.executeQuery() ;
+			
+			while(res.next()) {
+				Adiacenze ad= new Adiacenze(res.getString("n1"), res.getString("n2"), res.getDouble("peso"));
+				result.add(ad);
+			}
+			
+			conn.close();
+			return result;
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+			return null ;
+		}
+	}
 
 }
